@@ -33,8 +33,7 @@ for i in xrange(num_points):
     vectors_set.append([x1, y1])
 ```
 
-
-`![Fiture 1](static/random_points.png)`
+![Fiture 1](https://github.com/AngeloK/tensorflow-demo/blob/master/static/random_points.png)
 
 #### 2.1.2 Fit Data
 
@@ -71,6 +70,6 @@ After running gradient descent 1000 times. we've got the optiaml w and b, which 
 
 Then it't easy to plot a line on the top of the graph we created before. It is shown as follow:
 
-`![Fiture 2](static/linear_model.png)`
+![Fiture 2](https://github.com/AngeloK/tensorflow-demo/blob/master/static/linear_model.png)
 
 By using tensorflow, linear regression could be easily implemented without writing too much code and importing scitific modules. And it's faster with high accuracy. 

@@ -32,8 +32,6 @@ y_ = tf.add(tf.mul(w, x_data), b)
 # y_ = w * x_data + b
 
 
-test = tf.sub(y_, y_data)
-
 # sse = tf.reduce_mean(tf.square(y_ - y_data))
 sse = tf.reduce_mean(tf.pow(tf.sub(y_, y_data), 2))
 
@@ -45,6 +43,9 @@ sess.run(tf.initialize_all_variables())
 
 for i in range(1000):
     sess.run(train_step)
+
+print sess.run(w)
+print sess.run(b)
 
 plt.plot(x_data, sess.run(w) * x_data + sess.run(b))
 plt.show()

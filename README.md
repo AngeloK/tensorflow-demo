@@ -73,3 +73,37 @@ Then it't easy to plot a line on the top of the graph we created before. It is s
 ![Fiture 2](https://github.com/AngeloK/tensorflow-demo/blob/master/static/linear_model.png)
 
 By using tensorflow, linear regression could be easily implemented without writing too much code and importing scitific modules. And it's faster with high accuracy. 
+
+### 3.1 Convolutional Neural Networks
+
+#### 3.1.1 Introduction of CNN
+
+Convolutional Neural Networks (CNN)[[wiki]](https://en.wikipedia.org/wiki/Convolutional_neural_network) are biologically-inspired variants of MLPs and they have wide applications in image and video recognition, recommender systems and natural language processing. Differed from normal feedforward neural networks (aks fully connected neural networks), CNNs consider more about small sub-regions of the virtual field, that's why they have better performance on image recognition. In implementation part, we used [The Street View House Numbers (SVHN) Dataset](http://ufldl.stanford.edu/housenumbers/).
+
+#### To be continued...
+
+#### Ouputs
+
+```
+step 0, training accuracy 0
+step 100, training accuracy 0.2
+step 200, training accuracy 0.3
+step 300, training accuracy 0.1
+step 400, training accuracy 0.1
+step 500, training accuracy 0.3
+step 600, training accuracy 0.2
+step 700, training accuracy 0.5
+step 800, training accuracy 0.6
+step 900, training accuracy 0.4
+step 1000, training accuracy 0.6
+step 1100, training accuracy 0.6
+step 1200, training accuracy 0.2
+step 1300, training accuracy 0.6
+step 1400, training accuracy 0.6
+step 1500, training accuracy 0.8
+step 1600, training accuracy 0.7
+step 1700, training accuracy 0.8
+step 1800, training accuracy 0.6
+step 1900, training accuracy 0.6
+test accuracy 0.797708
+```

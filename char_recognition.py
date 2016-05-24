@@ -7,6 +7,10 @@ import numpy as np
 from sklearn.cross_validation import KFold
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+from tensorflow.examples.tutorials.mnist import input_data
+from sklearn.cross_validation import train_test_split
+
+mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
 def read_data():
     data = pd.read_csv("train.csv")
@@ -57,7 +61,7 @@ W_cov1 = weight_variable([5, 5, 1, 64])
 b_cov1 = bias_variable([64])
 
 # The dimension of input of tf.nn.conv2d is
-# [bench_size, image_width, image_height, output_channels]
+# [batch_size, image_width, image_height, output_channels]
 # So we should reshape the image tensor.
 
 x_reshaped = tf.reshape(x, [-1, 20, 20, 1])
@@ -102,7 +106,7 @@ correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 portition_index = 0
-bench = 50
+batch = 100
 predict = tf.argmax(y_conv, 1)
 
 x_data, y_data = read_data()
@@ -111,44 +115,74 @@ x_data, y_data = read_data()
 sess = tf.InteractiveSession()
 
 sess.run(tf.initialize_all_variables())
-for i in range(1000):
-    bench_start = portition_index * bench
-    bench_end = bench_start + bench
 
-    if y_data[bench_start: bench_start].shape[0] == 0:
+# for i in range(1000):
+    # batch = mnist.train.next_batch(50)
+    # if i % 100 == 0:
+        # train_accuracy = accuracy.eval(feed_dict={
+            # x: batch[0], y_: batch[1], keep_prob: 1.0})
+        # print("step %d, training accuracy %g" % (i, train_accuracy))
+    # train.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+
+# print("test accuracy %g" % accuracy.eval(feed_dict={
+    # x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
+
+n_samples = x_data.shape[0]
+
+print n_samples
+
+for i in range(2000):
+    batch_start = portition_index * batch
+    batch_end = batch_start + batch
+
+    if batch_end > n_samples:
+        batch_end = n_samples
         portition_index = 0
+
+    if y_data[batch_start: batch_end].shape[0] == 0:
+        portition_index = 0
+
+    batch_x, batch_y = x_data[batch_start: batch_end], y_data[batch_start: batch_end]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        batch_x, batch_y, test_size=0.1, random_state=42)
     if i % 100 == 0:
         train_accuracy = accuracy.eval(
-            feed_dict={x: x_data.ix[bench_start: bench_end+1],
-                         y_: y_data.ix[bench_start: bench_end+1],
+            feed_dict={x: X_test,
+                         y_: y_test,
                          keep_prob: 1.0
                          })
         print("step %d, training accuracy %g" % (i, train_accuracy))
-    train.run(feed_dict={x: x_data.ix[bench_start: bench_end+1],
-                         y_: y_data.ix[bench_start: bench_end+1],
+    train.run(feed_dict={x: X_train,
+                         y_: y_train,
                          keep_prob: 0.5
                          })
     portition_index += 1
 
-summary_writer = tf.train.SummaryWriter('/tmp/mnist_logs', sess.graph)
-test_x = x_data[500:520]
+print("test accuracy %g" % accuracy.eval(feed_dict={
+    x: x_data, y_: y_data, keep_prob: 1.0}))
 
-test_y = pd.read_csv("dataset/trainLabels.csv")["Class"][500:520]
 
-print test_y
 
-print "Prediction:"
+# summary_writer = tf.train.SummaryWriter('/tmp/mnist_logs', sess.graph)
+# test_x = x_data[500:520]
 
-columns = y_data.columns
+# test_y = pd.read_csv("dataset/trainLabels.csv")["Class"][500:520]
 
-prediction = predict.eval(feed_dict={
-    x: test_x,
-    keep_prob: 1.0
-})
+# print test_y
 
-result = []
+# print "Prediction:"
 
-for i in prediction:
-    result.append(columns[i])
+# columns = y_data.columns
 
-print result
+# prediction = predict.eval(feed_dict={
+    # x: test_x,
+    # keep_prob: 1.0
+# })
+
+# result = []
+
+# for i in prediction:
+    # result.append(columns[i])
+
+# print result
